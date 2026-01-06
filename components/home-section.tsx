@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Header } from "./header";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import Threads from "./Threads";
 
 export function HeroSection() {
   return (
@@ -13,9 +12,7 @@ export function HeroSection() {
       className="relative md:p-20 lg:p-24 mx-auto my-6 w-full rounded-2xl overflow-hidden px-4 font-poppins"
     >
       {/* Background */}
-      <div className="absolute inset-0 z-0">
-        <Threads />
-      </div>
+
 
       {/* Header */}
       <div className="absolute top-0 left-0 right-0 z-20">
