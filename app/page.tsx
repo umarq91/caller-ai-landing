@@ -1,66 +1,82 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import { SocialProof } from "@/components/social-proof";
+import { AnimatedSection } from "@/components/animated-section";
+import AutomateCallsSection from "@/components/automate-calls-section";
 
-export default function Home() {
+import { HeroSection } from "@/components/home-section";
+import { LargeTestimonial } from "@/components/large-terminal";
+import FunkyFeaturesSection from "@/components/feature-section";
+import { TestimonialGridSection } from "@/components/testimonials-grid-section";
+import { FAQSection } from "@/components/faq-section";
+import { ContactSection } from "@/components/contact-section";
+import { CTASection } from "@/components/cta-section";
+import { FooterSection } from "@/components/footer-section";
+
+export default function LandingPage() {
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>To get started, edit the page.tsx file.</h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+    <div className="min-h-screen bg-background relative overflow-hidden pb-0">
+      <div className="relative z-10">
+        <main className="w-full mx-auto relative">
+          <HeroSection />
+        </main>
+        <AnimatedSection
+          className="relative z-10 max-w-[1320px] mx-auto px-6"
+          delay={0.1}
+        >
+          <AutomateCallsSection />
+          <SocialProof />
+        </AnimatedSection>
+
+        <AnimatedSection
+          className="relative z-10 max-w-[1320px] mx-auto mt-8 md:mt-16"
+          delay={0.2}
+        >
+          <LargeTestimonial />
+        </AnimatedSection>
+
+        <AnimatedSection
+          id="features-section"
+          className="relative z-10 max-w-[1320px] mx-auto mt-16"
+          delay={0.2}
+        >
+          <FunkyFeaturesSection />
+        </AnimatedSection>
+
+        <AnimatedSection
+          id="testimonials-section"
+          className="relative z-10 max-w-[1320px] mx-auto mt-8 md:mt-16"
+          delay={0.2}
+        >
+          <TestimonialGridSection />
+        </AnimatedSection>
+
+        <AnimatedSection
+          id="faq-section"
+          className="relative z-10 max-w-[1320px] mx-auto mt-8 md:mt-16"
+          delay={0.2}
+        >
+          <FAQSection />
+        </AnimatedSection>
+        <AnimatedSection
+          id="contact-section"
+          className="relative z-10 max-w-[1320px] mx-auto mt-8 md:mt-16"
+          delay={0.2}
+        >
+          <ContactSection />
+        </AnimatedSection>
+
+        <AnimatedSection
+          className="relative z-10 max-w-[1320px] mx-auto mt-8 md:mt-16"
+          delay={0.2}
+        >
+          <CTASection />
+        </AnimatedSection>
+        <AnimatedSection
+          className="relative z-10 max-w-[1320px] mx-auto mt-8 md:mt-16"
+          delay={0.2}
+        >
+          <FooterSection />
+        </AnimatedSection>
+      </div>
     </div>
   );
 }
