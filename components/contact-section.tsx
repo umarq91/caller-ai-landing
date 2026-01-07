@@ -55,7 +55,7 @@ export function ContactSection() {
             Let's Start a Conversation
           </h2>
           <p className="text-muted-foreground text-lg md:text-xl font-medium leading-relaxed max-w-2xl">
-            Ready to transform your customer interactions? Get in touch with our team to learn how Clario can help
+            Ready to transform your customer interactions? Get in touch with our team to learn how Klaryo can help
             your business.
           </p>
         </motion.div>
@@ -137,7 +137,7 @@ export function ContactSection() {
               <div className="relative z-10">
                 <h3 className="text-foreground text-xl font-semibold mb-2">Schedule a Demo</h3>
                 <p className="text-muted-foreground text-sm mb-4">
-                  See Clario in action with a personalized demo tailored to your business needs.
+                  See Klaryo in action with a personalized demo tailored to your business needs.
                 </p>
                 <Button className="w-full bg-secondary text-secondary-foreground hover:bg-secondary/90 px-6 py-3 rounded-full font-medium">
                   Book a Demo

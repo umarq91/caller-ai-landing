@@ -24,7 +24,7 @@ export function LargeTestimonial() {
                 transition={{ duration: 0.8, delay: 0.2 }}
               >
                 {
-                  "Clario transformed our customer service. Our clients can't tell they're speaking with AI, and we've reduced wait times by 90%."
+                  "Klaryo transformed our customer service. Our clients can't tell they're speaking with AI, and we've reduced wait times by 90%."
                 }
               </motion.div>
               <motion.div

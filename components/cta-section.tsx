@@ -129,7 +129,7 @@ export function CTASection() {
             transition={{ duration: 0.8, delay: 0.2, ease: [0.33, 1, 0.68, 1] }}
           >
             Join thousands of businesses handling more calls, converting more leads, and building stronger customer
-            relationships with Clario's powerful voice technology
+            relationships with Klaryo's powerful voice technology
           </motion.p>
         </div>
         <Link href="https://vercel.com/home" target="_blank" rel="noopener noreferrer">

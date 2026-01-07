@@ -10,6 +10,8 @@ import { FAQSection } from "@/components/faq-section";
 import { ContactSection } from "@/components/contact-section";
 import { CTASection } from "@/components/cta-section";
 import { FooterSection } from "@/components/footer-section";
+import ExpandableCards from "@/components/expandable-cards";
+import { VoiceSection } from "@/components/voices-section";
 
 export default function LandingPage() {
   return (
@@ -39,6 +41,18 @@ export default function LandingPage() {
           delay={0.2}
         >
           <FunkyFeaturesSection />
+        </AnimatedSection>
+
+     <AnimatedSection
+          id="expandable"
+          className="relative z-10 max-w-[1320px] mx-auto mt-8 md:mt-16"
+          delay={0.2}
+        >
+          <ExpandableCards />
+          <div className="mt-10">
+
+          <VoiceSection/>
+          </div>
         </AnimatedSection>
 
         <AnimatedSection

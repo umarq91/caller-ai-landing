@@ -16,7 +16,7 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Clario - Voice Agents That Sound Human",
+  title: "Klaryo - Voice Agents That Sound Human",
   description:
     "Transform your customer interactions with AI-powered voice agents that speak naturally and deliver exceptional experiences.",
   generator: "v0.app",
