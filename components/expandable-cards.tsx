@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 import { Play, Pause, Download } from "lucide-react";
+import Image from "next/image";
 
 export default function HorizontalExpandableVoiceCards() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -17,8 +18,10 @@ export default function HorizontalExpandableVoiceCards() {
       name: "Clara",
       category: "Medical",
       title: "Dental Clinic",
-      description: "Listen how our AI Voice Agent politely reminds a client about their upcoming dental appointment.",
-      image: "https://images.unsplash.com/photo-1602233158242-3ba0ac4d2167?q=80&w=872&auto=format&fit=crop",
+      description:
+        "Listen how our AI Voice Agent politely reminds a client about their upcoming dental appointment.",
+      image:
+        "https://images.unsplash.com/photo-1602233158242-3ba0ac4d2167?q=80&w=872&auto=format&fit=crop",
       audio: "/audio/clara.mp3",
       gradient: "bg-cyan-500",
     },
@@ -26,8 +29,10 @@ export default function HorizontalExpandableVoiceCards() {
       name: "Jenny",
       category: "Real Estate",
       title: "Agentic Estate",
-      description: "Discover in this recording how AI instantly provides comprehensive property details, simplifying your client's real estate search.",
-      image: "https://images.unsplash.com/photo-1627161683077-e34782c24d81?q=80&w=806&auto=format&fit=crop",
+      description:
+        "Discover in this recording how AI instantly provides comprehensive property details, simplifying your client's real estate search.",
+      image:
+        "https://images.unsplash.com/photo-1627161683077-e34782c24d81?q=80&w=806&auto=format&fit=crop",
       audio: "/audio/jenny.mp3",
       gradient: "bg-emerald-500",
     },
@@ -36,7 +41,8 @@ export default function HorizontalExpandableVoiceCards() {
       category: "Sales",
       title: "Lead Qualification",
       description: "Qualifies inbound leads and routes hot prospects to your sales team efficiently.",
-      image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=774&auto=format&fit=crop",
+      image:
+        "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=774&auto=format&fit=crop",
       audio: "/audio/sam.mp3",
       gradient: "bg-orange-500",
     },
@@ -45,7 +51,8 @@ export default function HorizontalExpandableVoiceCards() {
       category: "Support",
       title: "Customer Support",
       description: "Handles FAQs professionally and escalates complex support tickets when needed.",
-      image: "https://plus.unsplash.com/premium_photo-1661310261765-f0481298ac4d?q=80&w=774&auto=format&fit=crop",
+      image:
+        "https://plus.unsplash.com/premium_photo-1661310261765-f0481298ac4d?q=80&w=774&auto=format&fit=crop",
       audio: "/audio/jordan.mp3",
       gradient: "bg-fuchsia-500",
     },
@@ -139,8 +146,14 @@ export default function HorizontalExpandableVoiceCards() {
                 </div>
 
                 <div className="flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-8">
-                  <div className="w-full md:w-48 h-48 md:h-40 rounded-2xl overflow-hidden shadow-lg shrink-0">
-                    <img src={voice.image} alt={voice.name} className="h-full w-full object-cover" />
+                  <div className="w-full md:w-48 h-48 md:h-40 rounded-2xl overflow-hidden shadow-lg shrink-0 relative">
+                    <Image
+                      src={voice.image}
+                      alt={voice.name}
+                      fill
+                      className="object-cover"
+                      priority
+                    />
                   </div>
 
                   <div className="flex-1 w-full">
@@ -178,7 +191,11 @@ export default function HorizontalExpandableVoiceCards() {
                     </div>
                   </div>
 
-                  <audio ref={(el: any) => (audioRefs.current[index] = el)} src={voice.audio} onTimeUpdate={() => handleTimeUpdate(index)} />
+                  <audio
+                    ref={(el: any) => (audioRefs.current[index] = el)}
+                    src={voice.audio}
+                    onTimeUpdate={() => handleTimeUpdate(index)}
+                  />
                 </div>
               </div>
             </motion.div>
@@ -212,13 +229,17 @@ export default function HorizontalExpandableVoiceCards() {
               className={`relative rounded-3xl overflow-hidden bg-gradient-to-br ${voice.gradient} flex cursor-pointer text-white shadow-xl hover:shadow-2xl transition-shadow`}
             >
               <motion.div
-                className="h-full shrink-0"
+                className="h-full shrink-0 relative"
                 animate={{ width: isActive ? 240 : "100%" }}
                 transition={{ type: "spring", stiffness: 150, damping: 25, duration: 0.8 }}
               >
-                <div className="h-full w-full overflow-hidden">
-                  <img src={voice.image} alt={voice.name} className="h-full w-full object-cover transition-transform duration-800 hover:scale-105" />
-                </div>
+                <Image
+                  src={voice.image}
+                  alt={voice.name}
+                  fill
+                  className="object-cover transition-transform duration-800 hover:scale-105"
+                  priority={isActive} // only preload active image
+                />
               </motion.div>
 
               <motion.div
