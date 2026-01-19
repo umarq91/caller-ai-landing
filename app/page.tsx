@@ -21,6 +21,7 @@ export default function LandingPage() {
           <HeroSection />
         </main>
         <AnimatedSection
+          id="about-us"
           className="relative z-10 max-w-[1320px] mx-auto px-6"
           delay={0.1}
         >
@@ -43,15 +44,14 @@ export default function LandingPage() {
           <FunkyFeaturesSection />
         </AnimatedSection>
 
-     <AnimatedSection
-          id="expandable"
+        <AnimatedSection
+          id="voice-section"
           className="relative z-10 max-w-[1320px] mx-auto mt-8 md:mt-16"
           delay={0.2}
         >
           <ExpandableCards />
           <div className="mt-10">
-
-          <VoiceSection/>
+            <VoiceSection />
           </div>
         </AnimatedSection>
 

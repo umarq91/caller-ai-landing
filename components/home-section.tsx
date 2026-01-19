@@ -2,21 +2,18 @@
 
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { Header } from "./header";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { Navbar } from "./header";
 
 export function HeroSection() {
   return (
-    <section
-      className="relative md:p-20 lg:p-24 mx-auto my-6 w-full rounded-2xl overflow-hidden px-4 font-poppins"
-    >
+    <section className="relative md:p-20 lg:p-24 mx-auto my-6 w-full rounded-2xl overflow-hidden px-4 font-poppins">
       {/* Background */}
-
 
       {/* Header */}
       <div className="absolute top-0 left-0 right-0 z-20">
-        <Header />
+        <Navbar />
       </div>
 
       {/* Hero Content */}
@@ -51,8 +48,7 @@ export function HeroSection() {
             href="https://vercel.com/home"
             target="_blank"
             rel="noopener noreferrer"
-          >
-          </Link>
+          ></Link>
         </motion.div>
       </div>
     </section>
