@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export const VoiceSection = () => {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 font-poppins">
@@ -14,7 +16,9 @@ export const VoiceSection = () => {
         </div>
 
         {/* Rotated Image */}
-        <img
+        <Image
+        width={420}
+        height={200}
           src="https://callfluent.com/wp-content/themes/callfluent/images/ai-voice.svg"
           alt="Neural voices UI"
           className="absolute right-[-40px] bottom-[-20px] w-[340px] sm:w-[420px]
