@@ -163,6 +163,7 @@ export const Voices: React.FC = () => {
                     src={v.avatar}
                     className="w-8 h-8 rounded-full border-2 border-zinc-900 bg-zinc-800"
                     alt={v.name}
+                    loading="lazy"
                   />
                 ))}
               </div>
