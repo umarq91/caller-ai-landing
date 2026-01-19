@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import type React from "react"
-import { useState } from "react"
-import { ChevronDown } from "lucide-react"
-import { motion, AnimatePresence } from "framer-motion"
+import type React from "react";
+import { useState } from "react";
+import { ChevronDown, HelpCircle } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const faqData = [
   {
@@ -27,109 +27,136 @@ const faqData = [
       "The free plan includes up to 100 minutes of calling per month, access to 5+ natural voices, basic call analytics, single CRM integration, and email support. It's perfect for small businesses getting started with AI voice agents.",
   },
   {
-    question: "How does call routing work?",
-    answer:
-      "Our smart call routing uses AI to analyze caller intent in real-time and directs calls to the appropriate agent or department. It can handle complex routing rules, prioritize urgent calls, and seamlessly transfer to human agents when needed.",
-  },
-  {
     question: "Is my customer data secure with Klaryo?",
     answer:
-      "Absolutely. We use enterprise-grade security measures including end-to-end encryption, GDPR and HIPAA compliance, secure data storage, and regular security audits. Your call data is never shared with third parties, and we offer on-premises deployment options for enterprise customers.",
+      "Absolutely. We use enterprise-grade security measures including end-to-end encryption, GDPR and HIPAA compliance, and regular security audits. Your call data is never shared with third parties.",
   },
-]
+];
 
 interface FAQItemProps {
-  question: string
-  answer: string
-  isOpen: boolean
-  onToggle: () => void
+  question: string;
+  answer: string;
+  isOpen: boolean;
+  onToggle: () => void;
 }
 
 const FAQItem = ({ question, answer, isOpen, onToggle }: FAQItemProps) => {
-  const handleClick = (e: React.MouseEvent) => {
-    e.preventDefault()
-    onToggle()
-  }
-   return (
+  return (
     <div
-      className={`w-full bg-[rgba(231,236,235,0.08)] shadow-[0px_2px_4px_rgba(0,0,0,0.16)] overflow-hidden rounded-[10px] outline outline-1 outline-border outline-offset-[-1px]`}
+      className={`w-full transition-all duration-300 rounded-[2rem] border ${
+        isOpen
+          ? "bg-zinc-900/40 border-white/10 shadow-2xl"
+          : "bg-transparent border-white/5"
+      } overflow-hidden`}
     >
-      {/* Header / Question */}
       <button
         type="button"
-        id={`faq-question-${question.slice(0, 20).replace(/\s/g, '-')}`}
-        className="w-full px-5 py-[18px] pr-4 flex justify-between items-center gap-5 text-left cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-inset rounded-[10px]"
-        onClick={handleClick}
+        className="w-full px-8 py-7 flex justify-between items-center gap-5 text-left cursor-pointer focus:outline-none"
+        onClick={onToggle}
         aria-expanded={isOpen}
-        aria-controls={`faq-answer-${question.slice(0, 20).replace(/\s/g, '-')}`}
       >
-        <div className="flex-1 text-foreground text-base font-medium leading-6 break-words">{question}</div>
-        <motion.div 
-          animate={{ rotate: isOpen ? 180 : 0 }} 
-          transition={{ duration: 0.3 }}
-          aria-hidden="true"
+        <span className="flex-1 text-white text-lg font-black tracking-tight leading-6">
+          {question}
+        </span>
+        <motion.div
+          animate={{ rotate: isOpen ? 180 : 0, scale: isOpen ? 1.1 : 1 }}
+          transition={{ duration: 0.3, type: "spring", stiffness: 200 }}
+          className={`w-10 h-10 rounded-full flex items-center justify-center border ${
+            isOpen
+              ? "bg-indigo-600 border-indigo-500 text-white"
+              : "bg-white/5 border-white/5 text-zinc-500"
+          }`}
         >
-          <ChevronDown className="w-6 h-6 text-muted-foreground-dark" />
+          <ChevronDown className="w-5 h-5" />
         </motion.div>
       </button>
 
-      {/* Answer - only this animates */}
       <AnimatePresence initial={false}>
         {isOpen && (
           <motion.div
-            key="content"
-            id={`faq-answer-${question.slice(0, 20).replace(/\s/g, '-')}`}
-            role="region"
-            aria-labelledby={`faq-question-${question.slice(0, 20).replace(/\s/g, '-')}`}
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ height: { duration: 0.35, ease: "easeInOut" }, opacity: { duration: 0.2 } }}
-            style={{ overflow: "hidden" }}
+            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
           >
-            <div className="px-5 pb-[18px] pt-2">
-              <div className="text-foreground/80 text-sm font-normal leading-6 break-words">{answer}</div>
+            <div className="px-8 pb-8 pt-0">
+              <div className="text-zinc-500 text-base font-medium leading-relaxed max-w-2xl">
+                {answer}
+              </div>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
     </div>
-  )
-}
+  );
+};
 
 export function FAQSection() {
-  const [openItems, setOpenItems] = useState<Set<number>>(new Set())
-
-  const toggleItem = (index: number) => {
-    const newOpenItems = new Set(openItems)
-    if (newOpenItems.has(index)) newOpenItems.delete(index)
-    else newOpenItems.add(index)
-    setOpenItems(newOpenItems)
-  }
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <section className="w-full pt-[66px] pb-20 md:pb-40 px-5 flex flex-col justify-center items-center">
-      {/* Title */}
-      <div className="self-stretch pt-8 pb-8 md:pt-14 md:pb-14 flex flex-col justify-center items-center gap-2">
-        <h2 className="w-full max-w-[435px] text-center text-foreground text-4xl font-semibold leading-10 break-words">
-          Frequently Asked Questions
-        </h2>
-        <p className="self-stretch text-center text-muted-foreground text-sm font-medium leading-[18.20px] break-words">
-          Everything you need to know about Klaryo and how it can transform your phone interactions
-        </p>
-      </div>
+    <section className="relative w-full py-32 px-6 flex flex-col items-center  overflow-hidden">
+      <div className="max-w-4xl w-full">
+        {/* Title Area */}
+        <div className="text-center mb-20 relative">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            className="inline-flex items-center gap-2 px-3 py-1 bg-zinc-900 border border-white/5 rounded-full text-indigo-500 text-[10px] font-black uppercase tracking-[0.2em] mb-6"
+          >
+            <HelpCircle className="w-3 h-3" />
+            Support Center
+          </motion.div>
 
-      {/* FAQ List */}
-      <div className="w-full max-w-[700px] flex flex-col justify-start items-start gap-4">
-        {faqData.map((faq, index) => (
-          <FAQItem
-            key={index}
-            {...faq}
-            isOpen={openItems.has(index)}
-            onToggle={() => toggleItem(index)}
-          />
-        ))}
+          <h2 className="text-4xl md:text-6xl font-black tracking-tighter text-white leading-[1.1]">
+            Curious about <br />
+            <span className="text-zinc-500">how Klaryo works?</span>
+          </h2>
+
+          {/* Goofy Tag */}
+          <motion.div
+            animate={{ rotate: [3, -3, 3] }}
+            transition={{ duration: 4, repeat: Infinity }}
+            className="absolute -top-4 -right-4 md:-right-12 px-4 py-1.5 bg-amber-400 text-black text-[10px] font-black rounded-full shadow-xl rotate-6 hidden sm:block uppercase tracking-widest"
+          >
+            We've got answers!
+          </motion.div>
+
+          {/* Handwriting Accent */}
+          <div className="absolute -bottom-10 left-10 hidden lg:block opacity-30">
+            <svg
+              width="60"
+              height="40"
+              viewBox="0 0 60 40"
+              fill="none"
+              className="text-zinc-500 rotate-[-20deg]"
+            >
+              <path
+                d="M10 10 Q30 35 50 10"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+              />
+            </svg>
+            <p className="font-handwriting text-xl text-zinc-600 mt-2">
+              Just for you
+            </p>
+          </div>
+        </div>
+
+        {/* FAQ List */}
+        <div className="flex flex-col gap-4">
+          {faqData.map((faq, index) => (
+            <FAQItem
+              key={index}
+              {...faq}
+              isOpen={openIndex === index}
+              onToggle={() => setOpenIndex(openIndex === index ? null : index)}
+            />
+          ))}
+        </div>
       </div>
     </section>
-  )
+  );
 }

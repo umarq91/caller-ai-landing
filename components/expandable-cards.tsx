@@ -1,312 +1,391 @@
 "use client";
 
+import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useRef, useState, useEffect } from "react";
-import { Play, Pause, Download } from "lucide-react";
-import Image from "next/image";
+import {
+  Play,
+  Pause,
+  Download,
+  Volume2,
+  Sparkles,
+  Star,
+  Mic,
+} from "lucide-react";
 
-export default function HorizontalExpandableVoiceCards() {
+const voices = [
+  {
+    id: 0,
+    name: "Clara",
+    gender: "female",
+    category: "Medical",
+    title: "Dental Concierge",
+    description:
+      "Listen to how Clara handles patient inquiries with a warm, empathetic tone that builds immediate trust.",
+    avatar:
+      "https://api.dicebear.com/7.x/avataaars/svg?seed=voice2",
+    audio: "/audio/clara.mp3",
+    color: "from-indigo-600 to-blue-700",
+    glow: "rgba(79, 70, 229, 0.4)",
+    tag: "High EQ",
+  },
+  {
+    id: 1,
+    name: "Jenny",
+    gender: "female",
+    category: "Real Estate",
+    title: "Property Assistant",
+    description:
+      "Jenny provides rapid property details and schedules viewings with high energy and native-level fluency.",
+    avatar:
+      "https://api.dicebear.com/7.x/avataaars/svg?seed=14",
+    audio: "/audio/jenny.mp3",
+    color: "from-emerald-600 to-teal-700",
+    glow: "rgba(16, 185, 129, 0.4)",
+    tag: "Pro-Active",
+  },
+  {
+    id: 2,
+    name: "Sam",
+    gender: "male",
+    category: "Sales",
+    title: "Lead Qualifier",
+    description:
+      "Sam sounds exactly like your best SDR. He qualifies prospects and routes them to your team without skipping a beat.",
+    avatar:
+      "https://api.dicebear.com/7.x/avataaars/svg?seed=u",
+    audio: "/audio/sam.mp3",
+    color: "from-zinc-700 to-zinc-900",
+    glow: "rgba(161, 161, 170, 0.2)",
+    tag: "Cold-Call Elite",
+  },
+  {
+    id: 3,
+    name: "Jordan",
+    gender: "male",
+    category: "Support",
+    title: "Customer Success",
+    description:
+      "Jordan handles complex troubleshooting and escalates urgent issues with logical precision and infinite patience.",
+    avatar:
+      "https://api.dicebear.com/7.x/avataaars/svg?seed=p",
+    audio: "/audio/jordan.mp3",
+    color: "from-purple-600 to-indigo-800",
+    glow: "rgba(139, 92, 246, 0.4)",
+    tag: "Logic Master",
+  },
+];
+
+export const Voices: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [playingIndex, setPlayingIndex] = useState<number | null>(null);
   const [progress, setProgress] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
-  const [isTablet, setIsTablet] = useState(false);
+
   const audioRefs = useRef<(HTMLAudioElement | null)[]>([]);
 
-  const voices = [
-    {
-      name: "Clara",
-      category: "Medical",
-      title: "Dental Clinic",
-      description:
-        "Listen how our AI Voice Agent politely reminds a client about their upcoming dental appointment.",
-      image:
-        "/images/clara.avif",
-      audio: "/audio/clara.mp3",
-      gradient: "bg-cyan-500",
-    },
-    {
-      name: "Jenny",
-      category: "Real Estate",
-      title: "Agentic Estate",
-      description:
-        "Discover in this recording how AI instantly provides comprehensive property details, simplifying your client's real estate search.",
-      image:
-        "/images/jenny.avif",
-      audio: "/audio/jenny.mp3",
-      gradient: "bg-emerald-500",
-    },
-    {
-      name: "Sam",
-      category: "Sales",
-      title: "Lead Qualification",
-      description: "Qualifies inbound leads and routes hot prospects to your sales team efficiently.",
-      image:
-        "/images/sam.avif",
-      audio: "/audio/sam.mp3",
-      gradient: "bg-orange-500",
-    },
-    {
-      name: "Jordan",
-      category: "Support",
-      title: "Customer Support",
-      description: "Handles FAQs professionally and escalates complex support tickets when needed.",
-      image:
-        "/images/jordan.avif",
-      audio: "/audio/jordan.mp3",
-      gradient: "bg-fuchsia-500",
-    },
-  ];
-
   useEffect(() => {
-    const checkScreenSize = () => {
-      const width = window.innerWidth;
-      setIsMobile(width < 768);
-      setIsTablet(width >= 768 && width < 1024);
-    };
-
-    checkScreenSize();
-    window.addEventListener("resize", checkScreenSize);
-    return () => window.removeEventListener("resize", checkScreenSize);
+    const checkSize = () => setIsMobile(window.innerWidth < 1024);
+    checkSize();
+    window.addEventListener("resize", checkSize);
+    return () => window.removeEventListener("resize", checkSize);
   }, []);
-
-  useEffect(() => {
-    if (isMobile || isTablet) {
-      setActiveIndex(0);
-    }
-  }, [isMobile, isTablet]);
 
   const stopAll = () => {
     audioRefs.current.forEach((audio) => {
-      if (!audio) return;
-      audio.pause();
-      audio.currentTime = 0;
+      if (audio) {
+        audio.pause();
+        audio.currentTime = 0;
+      }
     });
     setPlayingIndex(null);
     setProgress(0);
   };
 
-  const togglePlay = (index: number) => {
+  const togglePlay = (e: React.MouseEvent, index: number) => {
+    e.stopPropagation();
     const audio = audioRefs.current[index];
     if (!audio) return;
 
     if (playingIndex === index) {
       audio.pause();
       setPlayingIndex(null);
-      return;
+    } else {
+      stopAll();
+      audio.play().catch((err) => console.error("Audio playback error:", err));
+      setPlayingIndex(index);
     }
-
-    stopAll();
-    audio.play();
-    setPlayingIndex(index);
-
-    audio.onended = () => {
-      setPlayingIndex(null);
-      setProgress(0);
-    };
   };
 
   const handleTimeUpdate = (index: number) => {
     const audio = audioRefs.current[index];
-    if (!audio || !audio.duration) return;
-
-    setProgress((audio.currentTime / audio.duration) * 100);
+    if (audio && playingIndex === index) {
+      const p = (audio.currentTime / audio.duration) * 100;
+      setProgress(p || 0);
+    }
   };
 
-  // Mobile/Tablet layout
-  if (isMobile || isTablet) {
-    return (
-      <div className="space-y-6 max-w-3xl mx-auto font-poppins px-4 md:px-6">
-        {voices.map((voice, index) => {
-          const isPlaying = index === playingIndex;
+  const handleEnded = () => {
+    setPlayingIndex(null);
+    setProgress(0);
+  };
 
-          return (
+  return (
+    <section className="mt-5 lg:mt-32 px-6 relative  overflow-hidden">
+      {/* Background Atmosphere */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-5xl h-[600px] bg-indigo-600/5 blur-[150px] rounded-full -z-10" />
+
+      <div className="max-w-7xl mx-auto">
+        <div className="flex flex-col lg:flex-row items-end justify-between mb-20 gap-8">
+          <div className="text-left">
             <motion.div
-              key={voice.name}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className={`relative rounded-3xl overflow-hidden bg-gradient-to-br ${voice.gradient} text-white shadow-lg`}
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="inline-flex items-center gap-2 px-3 py-1 bg-zinc-900 border border-white/5 rounded-full text-indigo-500 text-[10px] font-black uppercase tracking-[0.2em] mb-6"
             >
-              <div className="p-6 md:p-8">
-                <div className="flex flex-col md:flex-row md:items-center justify-between mb-6">
-                  <div className="flex items-center gap-3 mb-4 md:mb-0">
-                    <span className="px-4 py-1.5 bg-white/20 backdrop-blur-sm rounded-full text-sm font-medium">
-                      {voice.category}
-                    </span>
-                  </div>
-                  <span className="px-5 py-2 bg-white text-[#7A6B96] rounded-full font-semibold text-lg">
-                    {voice.name}
+              <Mic className="w-3 h-3" />
+              Demo Showcase
+            </motion.div>
+            <h2 className="text-5xl md:text-7xl font-black tracking-tighter text-white leading-[0.9]">
+              Voices with <br />
+              <span className="text-zinc-600 text-6xl md:text-8xl">
+                Personality.
+              </span>
+            </h2>
+          </div>
+
+          <div className="relative group hidden md:block">
+            <div className="px-6 py-4 bg-zinc-900/50 border border-white/5 rounded-3xl flex items-center gap-4 backdrop-blur-md">
+              <div className="flex -space-x-3">
+                {voices.map((v) => (
+                  <img
+                    key={v.id}
+                    src={v.avatar}
+                    className="w-8 h-8 rounded-full border-2 border-zinc-900 bg-zinc-800"
+                    alt={v.name}
+                  />
+                ))}
+              </div>
+              <div className="text-left">
+                <div className="flex items-center gap-1">
+                  <Star className="w-3 h-3 text-amber-400 fill-current" />
+                  <span className="text-xs font-black text-white">
+                    4.9/5 Match
                   </span>
                 </div>
-
-                <div className="mb-8">
-                  <h2 className="text-2xl md:text-3xl font-bold mb-3">{voice.title}</h2>
-                  <p className="text-white/90 text-base md:text-lg leading-relaxed">{voice.description}</p>
-                </div>
-
-                <div className="flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-8">
-                  <div className="w-full md:w-48 h-48 md:h-40 rounded-2xl overflow-hidden shadow-lg shrink-0 relative">
-                    <Image
-                      src={voice.image}
-                      alt={voice.name}
-                      fill
-                      className="object-cover"
-                      priority
-                    />
-                  </div>
-
-                  <div className="flex-1 w-full">
-                    <div className="flex items-center gap-4">
-                      <motion.button
-                        whileTap={{ scale: 0.95 }}
-                        onClick={() => togglePlay(index)}
-                        className="w-14 h-14 bg-white text-[#7A6B96] rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-shadow"
-                      >
-                        {isPlaying ? <Pause size={24} /> : <Play size={24} />}
-                      </motion.button>
-
-                      <div className="flex-1 mt-10">
-                        <div className="relative h-2 bg-white/20 rounded-full overflow-hidden mb-2">
-                          <motion.div
-                            className="absolute left-0 top-0 h-full bg-white"
-                            animate={{ width: isPlaying ? `${progress}%` : "0%" }}
-                            transition={{ ease: "linear", duration: 0.1 }}
-                          />
-                        </div>
-
-                        <div className="flex justify-end">
-                          <motion.a
-                            whileHover={{ scale: 1.1 }}
-                            whileTap={{ scale: 0.95 }}
-                            href={voice.audio}
-                            download
-                            className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 rounded-full text-sm font-medium transition-colors"
-                          >
-                            <Download size={16} />
-                            Download
-                          </motion.a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <audio
-                    ref={(el: any) => (audioRefs.current[index] = el)}
-                    src={voice.audio}
-                    onTimeUpdate={() => handleTimeUpdate(index)}
-                  />
-                </div>
+                <p className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">
+                  Neural Accuracy
+                </p>
               </div>
-            </motion.div>
-          );
-        })}
-      </div>
-    );
-  }
+            </div>
+          </div>
+        </div>
 
-  // Desktop layout
-  return (
-    <div className="flex gap-6 h-[420px] max-w-7xl mx-auto font-poppins">
-      <AnimatePresence initial={false} mode="wait">
-        {voices.map((voice, index) => {
-          const isActive = index === activeIndex;
-          const isPlaying = index === playingIndex;
+        {/* Interaction Grid */}
+        <div
+          className={`flex flex-col lg:flex-row gap-6 ${isMobile ? "h-auto" : "h-[520px]"}`}
+        >
+          <AnimatePresence initial={false} mode="wait">
+            {voices.map((v, i) => {
+              const isActive = activeIndex === i;
+              const isPlaying = playingIndex === i;
 
-          return (
-            <motion.div
-              key={voice.name}
-              layout
-              initial={false}
-              animate={{ flex: isActive ? 4 : 1 }}
-              transition={{ type: "spring", stiffness: 150, damping: 25, mass: 1.2, duration: 0.8 }}
-              onClick={() => {
-                if (activeIndex !== index) {
-                  setActiveIndex(index);
-                  stopAll();
-                }
-              }}
-              className={`relative rounded-3xl overflow-hidden bg-gradient-to-br ${voice.gradient} flex cursor-pointer text-white shadow-xl hover:shadow-2xl transition-shadow`}
-            >
-              <motion.div
-                className="h-full shrink-0 relative"
-                animate={{ width: isActive ? 240 : "100%" }}
-                transition={{ type: "spring", stiffness: 150, damping: 25, duration: 0.8 }}
-              >
-                <Image
-                  src={voice.image}
-                  alt={voice.name}
-                  fill
-                  className="object-cover transition-transform duration-800 hover:scale-105"
-                  priority={isActive && index === 0} // only preload first active image
-                  loading={index === 0 ? undefined : "lazy"}
-                  sizes="(max-width: 768px) 100vw, 240px"
-                />
-              </motion.div>
+              return (
+                <motion.div
+                  key={v.name}
+                  layout
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1, duration: 0.6 }}
+                  animate={{
+                    flex: isMobile ? "none" : isActive ? 4 : 1,
+                    height: isMobile ? "auto" : "100%",
+                  }}
+                  onClick={() => {
+                    if (!isMobile && activeIndex !== i) {
+                      setActiveIndex(i);
+                      stopAll();
+                    }
+                  }}
+                  className={`relative rounded-[3rem] overflow-hidden group cursor-pointer border border-white/5 transition-all duration-700 ${
+                    isActive
+                      ? "bg-zinc-900 shadow-2xl"
+                      : "bg-zinc-950/40 hover:bg-zinc-900/40"
+                  }`}
+                >
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent pointer-events-none" />
 
-              <motion.div
-                initial={false}
-                animate={{ opacity: isActive ? 1 : 0, pointerEvents: isActive ? "auto" : "none", width: isActive ? "auto" : 0 }}
-                transition={{ duration: 0.6, ease: "easeInOut" }}
-                className="flex flex-col justify-between overflow-hidden p-10"
-                style={{ minWidth: isActive ? "480px" : 0 }}
-              >
-                <div>
-                  <div className="flex items-center justify-between mb-6">
-                    <span className="px-4 py-1.5 bg-white/20 backdrop-blur-sm rounded-full text-lg font-medium">{voice.category}</span>
-                    <span className="px-5 py-2 bg-white text-[#7A6B96] rounded-full font-semibold text-lg">{voice.name}</span>
-                  </div>
-                  <div>
-                    <h2 className="text-3xl font-bold mb-4">{voice.title}</h2>
-                    <p className="text-white/90 text-lg leading-relaxed max-w-lg">{voice.description}</p>
-                  </div>
-                </div>
+                  {isActive && (
+                    <motion.div
+                      layoutId="glow"
+                      className="absolute inset-0 blur-[100px] opacity-20 -z-10"
+                      style={{ backgroundColor: v.glow }}
+                    />
+                  )}
 
-                <div className="mt-8">
-                  <div className="flex items-center gap-6">
-                    <motion.button
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      onClick={(e) => { e.stopPropagation(); togglePlay(index); }}
-                      className="w-16 h-16 bg-white text-[#7A6B96] rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all"
+                  <div className="h-full flex flex-col lg:flex-row">
+                    {/* Avatar Side */}
+                    <div
+                      className={`relative shrink-0 flex items-center justify-center p-8 ${isActive ? "lg:w-[320px]" : "w-full lg:w-full"}`}
                     >
-                      {isPlaying ? <Pause size={26} /> : <Play size={26} />}
-                    </motion.button>
+                      <motion.div
+                        animate={{ scale: isActive ? 1.1 : 1 }}
+                        className={`w-32 h-32 lg:w-48 lg:h-48 rounded-[3rem] bg-gradient-to-br ${v.color} p-1 shadow-2xl relative`}
+                      >
+                        <div className="w-full h-full bg-zinc-950 rounded-[2.8rem] overflow-hidden flex items-center justify-center relative">
+                          <img
+                            src={v.avatar}
+                            alt={v.name}
+                            className={`w-[85%] h-[85%] object-cover transition-all duration-700 ${isActive ? "grayscale-0" : "grayscale"}`}
+                          />
 
-                    <div className="flex-1 space-y-3 mt-10">
-                      <div className="relative h-2.5 bg-white/20 rounded-full overflow-hidden">
-                        <motion.div className="absolute left-0 top-0 h-full bg-white" animate={{ width: isPlaying ? `${progress}%` : "0%" }} transition={{ ease: "linear" }} />
-                      </div>
+                          {/* Pulsing Visualizer while playing */}
+                          {isPlaying && (
+                            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                              <motion.div
+                                animate={{ scale: [1, 1.5], opacity: [0.5, 0] }}
+                                transition={{ duration: 1, repeat: Infinity }}
+                                className="absolute w-full h-full bg-white/10 rounded-full"
+                              />
+                              <div className="flex gap-1 items-end h-8">
+                                {[1, 2, 3, 4, 5].map((bar) => (
+                                  <motion.div
+                                    key={bar}
+                                    animate={{ height: [4, 16, 4] }}
+                                    transition={{
+                                      duration: 0.4,
+                                      repeat: Infinity,
+                                      delay: bar * 0.1,
+                                    }}
+                                    className="w-1 bg-white rounded-full"
+                                  />
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                        </div>
 
-                      <div className="flex justify-end">
-                        <motion.a
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
-                          href={voice.audio}
-                          download
-                          onClick={(e) => e.stopPropagation()}
-                          className="inline-flex items-center gap-2 px-5 py-2.5 bg-white/10 hover:bg-white/20 rounded-full font-medium transition-colors"
-                        >
-                          <Download size={18} />
-                          Download Sample
-                        </motion.a>
-                      </div>
+                        {!isMobile && (
+                          <div className="absolute -bottom-4 -right-4 px-3 py-1 bg-white text-black text-[9px] font-black rounded-full shadow-xl uppercase tracking-widest border border-black/5">
+                            {v.tag}
+                          </div>
+                        )}
+                      </motion.div>
                     </div>
+
+                    {/* Content Area */}
+                    <motion.div
+                      initial={false}
+                      animate={{
+                        opacity: isActive || isMobile ? 1 : 0,
+                        width: isMobile ? "auto" : isActive ? "auto" : 0,
+                        x: isActive || isMobile ? 0 : -20,
+                      }}
+                      className="flex-1 flex flex-col justify-between p-8 pt-0 lg:pt-8"
+                    >
+                      <div className="space-y-6">
+                        <div className="flex items-center justify-between">
+                          <span className="px-4 py-1.5 bg-white/5 border border-white/5 rounded-full text-[10px] font-black text-indigo-400 uppercase tracking-widest">
+                            {v.category}
+                          </span>
+                          <span className="text-xl font-black text-white italic">
+                            {v.name}
+                          </span>
+                        </div>
+
+                        <div>
+                          <h3 className="text-3xl font-black text-white mb-4 tracking-tighter leading-none">
+                            {v.title}
+                          </h3>
+                          <p className="text-zinc-500 text-sm font-medium leading-relaxed max-w-md">
+                            {v.description}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="mt-10 flex flex-col gap-6">
+                        <div className="flex items-center gap-6">
+                          <button
+                            onClick={(e) => togglePlay(e, i)}
+                            className="w-16 h-16 rounded-full bg-white text-black flex items-center justify-center shadow-xl hover:scale-105 active:scale-95 transition-all"
+                          >
+                            {isPlaying ? (
+                              <Pause className="w-6 h-6 fill-current" />
+                            ) : (
+                              <Play className="w-6 h-6 fill-current ml-1" />
+                            )}
+                          </button>
+
+                          <div className="flex-1 space-y-3">
+                            <div className="h-1.5 bg-white/5 rounded-full overflow-hidden relative">
+                              <motion.div
+                                initial={{ width: 0 }}
+                                animate={{
+                                  width: isPlaying ? `${progress}%` : 0,
+                                }}
+                                transition={{ ease: "linear", duration: 0.1 }}
+                                className="absolute left-0 top-0 h-full bg-white"
+                              />
+                            </div>
+                            <div className="flex justify-between items-center text-[10px] font-black text-zinc-600 uppercase tracking-widest">
+                              <span>Neural Stream</span>
+                              <span>&lt; 50ms Lag</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center justify-between">
+                          <div className="flex gap-1">
+                            {[1, 2, 3, 4, 5].map((s) => (
+                              <Star
+                                key={s}
+                                className="w-3 h-3 text-amber-500 fill-current"
+                              />
+                            ))}
+                          </div>
+                          <a
+                            href={v.audio}
+                            download
+                            onClick={(e) => e.stopPropagation()}
+                            className="flex items-center gap-2 text-[10px] font-black text-white uppercase tracking-widest hover:text-indigo-400 transition-colors"
+                          >
+                            <Download className="w-3 h-3" />
+                           Download
+                          </a>
+                        </div>
+                      </div>
+
+                      {/* Real Audio Element */}
+                      <audio
+                        ref={(el) => {
+                          audioRefs.current[i] = el;
+                        }}
+                        src={v.audio}
+                        onTimeUpdate={() => handleTimeUpdate(i)}
+                        onEnded={handleEnded}
+                      />
+                    </motion.div>
+
+                    {/* Vertical Text when collapsed */}
+                    {!isActive && !isMobile && (
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        className="absolute inset-x-0 bottom-12 flex flex-col items-center gap-4 pointer-events-none"
+                      >
+                        <p className="font-black text-white uppercase tracking-[0.4em] rotate-180 [writing-mode:vertical-lr] text-xs opacity-50">
+                          {v.name}
+                        </p>
+                      </motion.div>
+                    )}
                   </div>
-                </div>
-
-                <audio ref={(el: any) => (audioRefs.current[index] = el)} src={voice.audio} onTimeUpdate={() => handleTimeUpdate(index)} />
-              </motion.div>
-
-              {!isActive && (
-                <motion.div initial={false} animate={{ opacity: isActive ? 0 : 1, scale: isActive ? 0.9 : 1 }} transition={{ duration: 0.4, ease: "easeOut" }} className="absolute bottom-6 left-6">
-                  <span className="px-5 py-2.5 bg-white text-[#7A6B96] rounded-full font-semibold text-lg shadow-lg">{voice.name}</span>
                 </motion.div>
-              )}
-            </motion.div>
-          );
-        })}
-      </AnimatePresence>
-    </div>
+              );
+            })}
+          </AnimatePresence>
+        </div>
+      </div>
+    </section>
   );
-}
+};

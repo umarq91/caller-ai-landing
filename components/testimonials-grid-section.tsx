@@ -1,185 +1,204 @@
-"use client"
-
-import Image from "next/image"
-import { motion } from "framer-motion"
+"use client";
+import React from "react";
+import { motion } from "framer-motion";
+import { Quote, Star, MessageSquare, Sparkles } from "lucide-react";
 
 const testimonials = [
   {
     quote:
-      "The real-time code suggestions from Pointer feel like having a senior engineer reviewing every line of code as you write. The accuracy of its recommendations has improved our overall code quality, reduced review time.",
+      "The low latency is actually insane. We switched from a legacy provider and our conversion rates jumped by 40% because customers actually feel like they're talking to a person.",
     name: "Annette Black",
     company: "Sony",
-    avatar: "/images/avatars/annette-black.png",
-    type: "large-teal",
+    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Annette",
+    size: "large",
+    tag: "Scale Master",
   },
   {
     quote:
-      "Integrating Pointer into our stack was smooth, and the MCP server connections saved us days of configuration work",
+      "Klaryo handles interruptions better than most of my human SDRs. It's spooky how good it is.",
     name: "Dianne Russell",
     company: "McDonald's",
-    avatar: "/images/avatars/dianne-russell.png",
-    type: "small-dark",
+    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Dianne",
+    size: "small",
+    tag: "Game Changer",
   },
   {
     quote:
-      "Pointer’s multi-agent coding feature has been a game changer. We’re fixing complex bugs in hours instead of spending entire sprints on them.",
+      "We've automated 80% of our inbound lead qualification. The AI agents sound warmer than our previous scripts.",
     name: "Cameron Williamson",
     company: "IBM",
-    avatar: "/images/avatars/cameron-williamson.png",
-    type: "small-dark",
+    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Cameron",
+    size: "small",
+    tag: "Efficiency Plus",
   },
   {
     quote:
-      "We no longer juggle multiple tools. Pointer brought all our integrations together in one place, which simplified our entire workflow.",
-    name: "Robert Fox",
-    company: "MasterCard",
-    avatar: "/images/avatars/robert-fox.png",
-    type: "small-dark",
-  },
-  {
-    quote:
-      "We started with the free plan just to test it out, but within a week we upgraded to Pro. Now, we can’t imagine coding without it",
-    name: "Darlene Robertson",
-    company: "Ferrari",
-    avatar: "/images/avatars/darlene-robertson.png",
-    type: "small-dark",
-  },
-  {
-    quote:
-      "Collaborative coding feels effortless now. With Pointer’s real-time previews, pair programming has become faster and more productive.",
-    name: "Cody Fisher",
-    company: "Apple",
-    avatar: "/images/avatars/cody-fisher.png",
-    type: "small-dark",
-  },
-  {
-    quote:
-      "Deploying on Vercel with Pointer was not just simple, it felt seamless. We went from coding to seeing our changes live in minutes without worrying about build pipelines or configuration issues.",
+      "The emotional intelligence is the real winner. It detects when a customer is frustrated and shifts to a more empathetic tone instantly.",
     name: "Albert Flores",
     company: "Louis Vuitton",
-    avatar: "/images/avatars/albert-flores.png",
-    type: "large-light",
+    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Albert",
+    size: "large",
+    tag: "Verified EQ",
   },
-]
+  {
+    quote: "Setup took us less than 30 minutes. We were making calls by lunch.",
+    name: "Robert Fox",
+    company: "MasterCard",
+    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Robert",
+    size: "small",
+    tag: "Fast Setup",
+  },
+  {
+    quote:
+      "Finally, an AI voice that doesn't sound like a GPS navigator from 2008.",
+    name: "Cody Fisher",
+    company: "Apple",
+    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Cody",
+    size: "small",
+    tag: "Voice Elite",
+  },
+  {
+    quote:
+      "Our inbound call handling improved instantly. Customers think it's a real team member.",
+    name: "Ava Martinez",
+    company: "Zendesk",
+    avatar:
+      "https://api.dicebear.com/7.x/avataaars/svg?seed=sb",
+    size: "small",
+    tag: "Human-Like AI",
+  },
+];
 
-const TestimonialCard = ({ quote, name, company, avatar, type, index }:any) => {
-  const isLargeCard = type.startsWith("large")
-  const avatarSize = isLargeCard ? 48 : 36
-  const avatarBorderRadius = isLargeCard ? "rounded-[41px]" : "rounded-[30.75px]"
-  const padding = isLargeCard ? "p-6" : "p-[30px]"
-
-  let cardClasses = `flex flex-col justify-between items-start overflow-hidden rounded-[10px] shadow-[0px_2px_4px_rgba(0,0,0,0.08)] relative ${padding}`
-  let quoteClasses = ""
-  let nameClasses = ""
-  let companyClasses = ""
-  let backgroundElements = null
-  let cardHeight = ""
-  const cardWidth = "w-full md:w-[384px]"
-
-  if (type === "large-teal") {
-    cardClasses += " bg-primary"
-    quoteClasses += " text-primary-foreground text-2xl font-medium leading-8"
-    nameClasses += " text-primary-foreground text-base font-normal leading-6"
-    companyClasses += " text-primary-foreground/60 text-base font-normal leading-6"
-    cardHeight = "h-[502px]"
-    backgroundElements = (
-      <div
-        className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: "url('/images/large-card-background.svg')", zIndex: 0 }}
-      />
-    )
-  } else if (type === "large-light") {
-    cardClasses += " bg-[rgba(231,236,235,0.12)]"
-    quoteClasses += " text-foreground text-2xl font-medium leading-8"
-    nameClasses += " text-foreground text-base font-normal leading-6"
-    companyClasses += " text-muted-foreground text-base font-normal leading-6"
-    cardHeight = "h-[502px]"
-    backgroundElements = (
-      <div
-        className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat opacity-20"
-        style={{ backgroundImage: "url('/images/large-card-background.svg')", zIndex: 0 }}
-      />
-    )
-  } else {
-    cardClasses += " bg-card outline outline-1 outline-border outline-offset-[-1px]"
-    quoteClasses += " text-foreground/80 text-[17px] font-normal leading-6"
-    nameClasses += " text-foreground text-sm font-normal leading-[22px]"
-    companyClasses += " text-muted-foreground text-sm font-normal leading-[22px]"
-    cardHeight = "h-[244px]"
-  }
+const TestimonialCard = ({
+  testimonial,
+  index,
+}: {
+  testimonial: (typeof testimonials)[0];
+  index: number;
+}) => {
+  const isLarge = testimonial.size === "large";
 
   return (
     <motion.div
-      className={`${cardClasses} ${cardWidth} ${cardHeight}`}
-      initial={{ opacity: 0, y: 30 }}
+      initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.6, delay: index * 0.1, ease: [0.33, 1, 0.68, 1] }}
+      viewport={{ once: true }}
+      transition={{ delay: index * 0.1, duration: 0.5 }}
       whileHover={{ y: -5, transition: { duration: 0.2 } }}
+      className={`relative rounded-[2.5rem] border border-white/5 p-8 flex flex-col justify-between group transition-all ${
+        isLarge ? "bg-zinc-900/20 md:col-span-2 row-span-1" : "bg-zinc-950/40"
+      }`}
     >
-      {backgroundElements}
-      <div className={`relative z-10 font-normal break-words ${quoteClasses}`}>{quote}</div>
-      <div className="relative z-10 flex justify-start items-center gap-3">
-        <Image
-          src={avatar || "/placeholder.svg"}
-          alt={`${name} avatar`}
-          width={avatarSize}
-          height={avatarSize}
-          className={`w-${avatarSize / 4} h-${avatarSize / 4} ${avatarBorderRadius}`}
-          style={{ border: "1px solid rgba(255, 255, 255, 0.08)" }}
-          loading="lazy"
-          sizes="48px"
-        />
-        <div className="flex flex-col justify-start items-start gap-0.5">
-          <div className={nameClasses}>{name}</div>
-          <div className={companyClasses}>{company}</div>
-        </div>
-      </div>
-    </motion.div>
-  )
-}
+      {/* Glow effect on hover for large cards */}
+      {isLarge && (
+        <div className="absolute inset-0 bg-indigo-500/5 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity rounded-[2.5rem] -z-10" />
+      )}
 
-export function TestimonialGridSection() {
-  return (
-    <section className="w-full px-5 overflow-hidden flex flex-col justify-start py-6 md:py-8 lg:py-14">
-      <div className="self-stretch py-6 md:py-8 lg:py-14 flex flex-col justify-center items-center gap-2">
-        <div className="flex flex-col justify-start items-center gap-4">
-          <motion.h2
-            className="text-center text-foreground text-3xl md:text-4xl lg:text-[40px] font-semibold leading-tight md:leading-tight lg:leading-[40px]"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-          >
-            Coding made effortless
-          </motion.h2>
-          <motion.p
-            className="self-stretch text-center text-muted-foreground text-sm md:text-sm lg:text-base font-medium leading-[18.20px] md:leading-relaxed lg:leading-relaxed"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            {"Hear how developers ship products faster, collaborate seamlessly,"} <br />{" "}
-            {"and build with confidence using Pointer's powerful AI tools"}
-          </motion.p>
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <div className="flex gap-1 text-amber-400">
+            {[...Array(5)].map((_, i) => (
+              <Star key={i} className="w-3 h-3 fill-current" />
+            ))}
+          </div>
+          <span className="px-3 py-1 bg-white/5 border border-white/5 rounded-full text-[9px] font-black text-zinc-400 uppercase tracking-widest">
+            {testimonial.tag}
+          </span>
+        </div>
+
+        <p
+          className={`text-white leading-relaxed tracking-tight font-medium ${isLarge ? "text-2xl" : "text-base"}`}
+        >
+          "{testimonial.quote}"
+        </p>
+      </div>
+
+      <div className="flex items-center gap-4 mt-10 pt-6 border-t border-white/5">
+        <img
+          src={testimonial.avatar}
+          alt={testimonial.name}
+          className="w-10 h-10 rounded-full bg-zinc-800 border border-white/10"
+        />
+        <div>
+          <h4 className="text-sm font-black text-white">{testimonial.name}</h4>
+          <p className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">
+            {testimonial.company}
+          </p>
         </div>
       </div>
-      <div className="w-full pt-0.5 pb-4 md:pb-6 lg:pb-10 flex flex-col md:flex-row justify-center items-start gap-4 md:gap-4 lg:gap-6 max-w-[1100px] mx-auto">
-        <div className="flex-1 flex flex-col justify-start items-start gap-4 md:gap-4 lg:gap-6">
-          <TestimonialCard {...testimonials[0]} index={0} />
-          <TestimonialCard {...testimonials[1]} index={1} />
+
+      {/* Abstract icon for large cards */}
+      {isLarge && (
+        <Quote className="absolute bottom-6 right-8 w-12 h-12 text-white/5 -z-10" />
+      )}
+    </motion.div>
+  );
+};
+
+export const Testimonials: React.FC = () => {
+  return (
+    <section className="py-32 px-6 relative  overflow-hidden">
+      {/* Background Glows */}
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-emerald-900/5 blur-[120px] rounded-full -z-10" />
+      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-indigo-900/5 blur-[100px] rounded-full -z-10" />
+
+      <div className="max-w-6xl mx-auto">
+        <div className="text-center mb-24 relative">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            className="inline-flex items-center gap-2 px-3 py-1 bg-zinc-900 border border-white/5 rounded-full text-indigo-500 text-[10px] font-black uppercase tracking-[0.2em] mb-6"
+          >
+            <MessageSquare className="w-3 h-3" />
+            Social Proof
+          </motion.div>
+
+          <h2 className="text-4xl md:text-6xl font-black tracking-tighter text-white leading-tight">
+            Conversations that <br />
+            <span className="text-zinc-600">close the gap.</span>
+          </h2>
+
+          {/* Goofy Floating Tag */}
+          <motion.div
+            animate={{ rotate: [-2, 2, -2], y: [0, 5, 0] }}
+            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute -top-6 left-1/4 hidden lg:flex items-center gap-2 px-4 py-2 bg-indigo-600 rounded-full shadow-2xl"
+          >
+            <Sparkles className="w-4 h-4 text-white" />
+            <span className="text-[10px] font-black text-white uppercase tracking-widest">
+              Scaling Fast!
+            </span>
+          </motion.div>
+
+          {/* Handwriting Accent */}
+          <div className="absolute -bottom-8 right-1/4 hidden md:block">
+            <svg
+              width="40"
+              height="40"
+              viewBox="0 0 40 40"
+              fill="none"
+              className="text-zinc-700 -rotate-12 opacity-50"
+            >
+              <path
+                d="M5 10 Q20 30 35 10"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+              />
+            </svg>
+            <p className="font-handwriting text-xl text-zinc-600 transform rotate-6">
+              Actual humans!
+            </p>
+          </div>
         </div>
-        <div className="flex-1 flex flex-col justify-start items-start gap-4 md:gap-4 lg:gap-6">
-          <TestimonialCard {...testimonials[2]} index={2} />
-          <TestimonialCard {...testimonials[3]} index={3} />
-          <TestimonialCard {...testimonials[4]} index={4} />
-        </div>
-        <div className="flex-1 flex flex-col justify-start items-start gap-4 md:gap-4 lg:gap-6">
-          <TestimonialCard {...testimonials[5]} index={5} />
-          <TestimonialCard {...testimonials[6]} index={6} />
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-fr">
+          {testimonials.map((t, i) => (
+            <TestimonialCard key={i} testimonial={t} index={i} />
+          ))}
         </div>
       </div>
     </section>
-  )
-}
+  );
+};

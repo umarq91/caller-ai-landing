@@ -5,9 +5,10 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 const navItems = [
-  { name: "About Us", href: "#about-us" },
-  { name: "Features", href: "#features-section" },
-  { name: "Voices", href: "#voice-section" },
+  { name: "Features", href: "#about-us" },
+  { name: "Demos", href: "#voice-section" },
+  { name: "Contact", href: "#contact-section" },
+
 ];
 
 export function Navbar() {

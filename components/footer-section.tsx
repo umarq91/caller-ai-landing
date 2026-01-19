@@ -1,89 +1,106 @@
-import { Twitter, Github, Linkedin } from "lucide-react"
+"use client";
 
-export function FooterSection() {
+import React from "react";
+import { motion } from "framer-motion";
+import { Twitter, Github, Linkedin, Globe } from "lucide-react";
+
+export const Footer: React.FC = () => {
   return (
-    <footer className="w-full max-w-[1320px] mx-auto px-5 flex flex-col md:flex-row justify-between items-start gap-8 md:gap-0 py-10 md:py-[70px]">
-      {/* Left Section: Logo, Description, Social Links */}
-      <div className="flex flex-col justify-start items-start gap-8 p-4 md:p-8">
-        <div className="flex gap-3 items-stretch justify-center">
-          <div className="text-center text-foreground text-xl font-semibold leading-4">Klaryo</div>
+    <footer className=" py-24 px-6 relative overflow-hidden">
+      {/* Background Decorative Glow */}
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-[250px] bg-indigo-500/5 blur-[120px] rounded-full -z-10" />
+
+      <div className="max-w-7xl mx-auto flex flex-col items-center text-center">
+        {/* Brand Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="space-y-6 mb-12"
+        >
+          <div className="flex items-center justify-center gap-3">
+            <div className="w-8 h-8 bg-white text-black rounded-lg flex items-center justify-center shadow-xl">
+              <span className="font-black text-sm italic">K</span>
+            </div>
+            <span className="text-xl font-black tracking-tighter text-white">
+              Klaryo
+            </span>
+          </div>
+
+          <h3 className="text-zinc-500 text-sm md:text-base font-medium max-w-md mx-auto leading-relaxed">
+            The future of voice is human. <br className="hidden sm:block" />
+            Empowering businesses with conversational AI that understands
+            nuance.
+          </h3>
+        </motion.div>
+
+        {/* Simplified Outro Nav */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.2 }}
+          className="flex flex-wrap justify-center gap-8 mb-16 text-[10px] font-black text-zinc-600 uppercase tracking-[0.2em]"
+        >
+          <a href="#about-us" className="hover:text-white transition-colors">
+            Platform
+          </a>
+          <a href="#voice-section" className="hover:text-white transition-colors">
+            Voices
+          </a>
+
+          <a href="contact-us" className="hover:text-white transition-colors">
+            Contact
+          </a>
+        </motion.div>
+
+        {/* Socials */}
+        <div className="flex items-center gap-8 mb-16">
+          {[Twitter, Github, Linkedin].map((Icon, i) => (
+            <motion.a
+              key={i}
+              href="#"
+              whileHover={{ y: -2, color: "#fff" }}
+              className="text-zinc-700 transition-colors"
+            >
+              <Icon className="w-5 h-5" />
+            </motion.a>
+          ))}
         </div>
-        <p className="text-foreground/90 text-sm font-medium leading-[18px] text-left">Voice agents that sound human</p>
-        <div className="flex justify-start items-start gap-3">
-          <a href="#" aria-label="Twitter" className="w-4 h-4 flex items-center justify-center">
-            <Twitter className="w-full h-full text-muted-foreground" />
-          </a>
-          <a href="#" aria-label="GitHub" className="w-4 h-4 flex items-center justify-center">
-            <Github className="w-full h-full text-muted-foreground" />
-          </a>
-          <a href="#" aria-label="LinkedIn" className="w-4 h-4 flex items-center justify-center">
-            <Linkedin className="w-full h-full text-muted-foreground" />
-          </a>
-        </div>
-      </div>
-      {/* Right Section: Product, Company, Resources */}
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-8 md:gap-12 p-4 md:p-8 w-full md:w-auto">
-        <div className="flex flex-col justify-start items-start gap-3">
-          <h3 className="text-muted-foreground text-sm font-medium leading-5">Product</h3>
-          <div className="flex flex-col justify-end items-start gap-2">
-            <a href="#" className="text-foreground text-sm font-normal leading-5 hover:underline">
-              Features
+
+        {/* Final Bottom Row */}
+        <div className="w-full pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
+          <div className="flex items-center gap-6 text-[9px] font-black text-zinc-700 uppercase tracking-widest">
+            <span>© 2025 Klaryo Inc.</span>
+            <div className="w-1 h-1 bg-zinc-800 rounded-full" />
+            <a href="#" className="hover:text-white transition-colors">
+              Privacy
             </a>
-            <a href="#" className="text-foreground text-sm font-normal leading-5 hover:underline">
-              Pricing
-            </a>
-            <a href="#" className="text-foreground text-sm font-normal leading-5 hover:underline">
-              Integrations
-            </a>
-            <a href="#" className="text-foreground text-sm font-normal leading-5 hover:underline">
-              Voice Library
-            </a>
-            <a href="#" className="text-foreground text-sm font-normal leading-5 hover:underline">
-              Call Analytics
+            <a href="#" className="hover:text-white transition-colors">
+              Terms
             </a>
           </div>
-        </div>
-        <div className="flex flex-col justify-start items-start gap-3">
-          <h3 className="text-muted-foreground text-sm font-medium leading-5">Company</h3>
-          <div className="flex flex-col justify-center items-start gap-2">
-            <a href="#" className="text-foreground text-sm font-normal leading-5 hover:underline">
-              About us
-            </a>
-            <a href="#" className="text-foreground text-sm font-normal leading-5 hover:underline">
-              Our team
-            </a>
-            <a href="#" className="text-foreground text-sm font-normal leading-5 hover:underline">
-              Careers
-            </a>
-            <a href="#" className="text-foreground text-sm font-normal leading-5 hover:underline">
-              Brand
-            </a>
-            <a href="#" className="text-foreground text-sm font-normal leading-5 hover:underline">
-              Contact
-            </a>
+
+          <div className="flex items-center gap-4 text-[9px] font-black text-zinc-700 uppercase tracking-widest">
+            <div className="flex items-center gap-2">
+              <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
+              <span>Operational</span>
+            </div>
+            <span className="opacity-30">/</span>
+            <div className="flex items-center gap-2 cursor-pointer hover:text-white transition-colors">
+              <Globe className="w-3 h-3" />
+              <span>Global</span>
+            </div>
           </div>
         </div>
-        <div className="flex flex-col justify-start items-start gap-3">
-          <h3 className="text-muted-foreground text-sm font-medium leading-5">Resources</h3>
-          <div className="flex flex-col justify-center items-start gap-2">
-            <a href="#" className="text-foreground text-sm font-normal leading-5 hover:underline">
-              Terms of use
-            </a>
-            <a href="#" className="text-foreground text-sm font-normal leading-5 hover:underline">
-              API Reference
-            </a>
-            <a href="#" className="text-foreground text-sm font-normal leading-5 hover:underline">
-              Documentation
-            </a>
-            <a href="#" className="text-foreground text-sm font-normal leading-5 hover:underline">
-              Community
-            </a>
-            <a href="#" className="text-foreground text-sm font-normal leading-5 hover:underline">
-              Support
-            </a>
-          </div>
+
+        {/* Small Handwriting Detail */}
+        <div className="mt-12 opacity-20">
+          <p className="font-handwriting text-lg text-zinc-500 italic">
+            Built for scale, designed for connection.
+          </p>
         </div>
       </div>
     </footer>
-  )
-}
+  );
+};

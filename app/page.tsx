@@ -14,21 +14,11 @@ const SocialProof = dynamic(
     })),
   { ssr: true },
 );
-const LargeTestimonial = dynamic(
-  () =>
-    import("@/components/large-terminal").then((mod) => ({
-      default: mod.LargeTestimonial,
-    })),
-  { ssr: true },
-);
-const FunkyFeaturesSection = dynamic(
-  () => import("@/components/feature-section"),
-  { ssr: true },
-);
+
 const TestimonialGridSection = dynamic(
   () =>
     import("@/components/testimonials-grid-section").then((mod) => ({
-      default: mod.TestimonialGridSection,
+      default: mod.Testimonials,
     })),
   { ssr: true },
 );
@@ -46,23 +36,22 @@ const ContactSection = dynamic(
     })),
   { ssr: true },
 );
-const CTASection = dynamic(
-  () =>
-    import("@/components/cta-section").then((mod) => ({
-      default: mod.CTASection,
-    })),
-  { ssr: true },
-);
+
 const FooterSection = dynamic(
   () =>
     import("@/components/footer-section").then((mod) => ({
-      default: mod.FooterSection,
+      default: mod.Footer,
     })),
   { ssr: true },
 );
-const ExpandableCards = dynamic(() => import("@/components/expandable-cards"), {
-  ssr: true,
-});
+const ExpandableCards = dynamic(
+  () =>
+    import("@/components/expandable-cards").then((mod) => ({
+      default: mod.Voices,
+    })),
+  { ssr: true },
+);
+
 const VoiceSection = dynamic(
   () =>
     import("@/components/voices-section").then((mod) => ({
@@ -73,7 +62,7 @@ const VoiceSection = dynamic(
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-background relative overflow-hidden pb-0">
+    <div className="min-h-screen bg-[#000] relative overflow-hidden pb-0">
       <div className="relative z-10">
         <main className="w-full mx-auto relative">
           <Hero />
@@ -84,22 +73,6 @@ export default function LandingPage() {
           delay={0.1}
         >
           <AutomateCallsSection />
-          <SocialProof />
-        </AnimatedSection>
-
-        <AnimatedSection
-          className="relative z-10 max-w-[1320px] mx-auto mt-8 md:mt-16"
-          delay={0.2}
-        >
-          <LargeTestimonial />
-        </AnimatedSection>
-
-        <AnimatedSection
-          id="features-section"
-          className="relative z-10 max-w-[1320px] mx-auto mt-16"
-          delay={0.2}
-        >
-          <FunkyFeaturesSection />
         </AnimatedSection>
 
         <AnimatedSection
@@ -128,6 +101,7 @@ export default function LandingPage() {
         >
           <FAQSection />
         </AnimatedSection>
+
         <AnimatedSection
           id="contact-section"
           className="relative z-10 max-w-[1320px] mx-auto mt-8 md:mt-16"
@@ -136,12 +110,6 @@ export default function LandingPage() {
           <ContactSection />
         </AnimatedSection>
 
-        <AnimatedSection
-          className="relative z-10 max-w-[1320px] mx-auto mt-8 md:mt-16"
-          delay={0.2}
-        >
-          <CTASection />
-        </AnimatedSection>
         <AnimatedSection
           className="relative z-10 max-w-[1320px] mx-auto mt-8 md:mt-16"
           delay={0.2}
