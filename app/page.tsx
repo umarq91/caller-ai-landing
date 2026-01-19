@@ -1,5 +1,5 @@
 import { AnimatedSection } from "@/components/animated-section";
-import { HeroSection } from "@/components/home-section";
+import Hero from "@/components/home-section";
 import dynamic from "next/dynamic";
 
 // Dynamic imports for ALL components below hero to reduce initial bundle size and improve LCP
@@ -76,7 +76,7 @@ export default function LandingPage() {
     <div className="min-h-screen bg-background relative overflow-hidden pb-0">
       <div className="relative z-10">
         <main className="w-full mx-auto relative">
-          <HeroSection />
+          <Hero />
         </main>
         <AnimatedSection
           id="about-us"
