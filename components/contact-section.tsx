@@ -153,7 +153,7 @@ export function ContactSection() {
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            <form onSubmit={handleSubmit} className="relative z-10 flex flex-col gap-6">
+            <form onSubmit={handleSubmit} className="relative z-10 flex flex-col gap-6" aria-label="Contact form">
               <div className="flex flex-col gap-2">
                 <label htmlFor="name" className="text-foreground text-sm font-medium">
                   Name

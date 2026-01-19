@@ -1,17 +1,75 @@
-import { SocialProof } from "@/components/social-proof";
 import { AnimatedSection } from "@/components/animated-section";
-import AutomateCallsSection from "@/components/automate-calls-section";
-
 import { HeroSection } from "@/components/home-section";
-import { LargeTestimonial } from "@/components/large-terminal";
-import FunkyFeaturesSection from "@/components/feature-section";
-import { TestimonialGridSection } from "@/components/testimonials-grid-section";
-import { FAQSection } from "@/components/faq-section";
-import { ContactSection } from "@/components/contact-section";
-import { CTASection } from "@/components/cta-section";
-import { FooterSection } from "@/components/footer-section";
-import ExpandableCards from "@/components/expandable-cards";
-import { VoiceSection } from "@/components/voices-section";
+import dynamic from "next/dynamic";
+
+// Dynamic imports for ALL components below hero to reduce initial bundle size and improve LCP
+const AutomateCallsSection = dynamic(
+  () => import("@/components/automate-calls-section"),
+  { ssr: true },
+);
+const SocialProof = dynamic(
+  () =>
+    import("@/components/social-proof").then((mod) => ({
+      default: mod.SocialProof,
+    })),
+  { ssr: true },
+);
+const LargeTestimonial = dynamic(
+  () =>
+    import("@/components/large-terminal").then((mod) => ({
+      default: mod.LargeTestimonial,
+    })),
+  { ssr: true },
+);
+const FunkyFeaturesSection = dynamic(
+  () => import("@/components/feature-section"),
+  { ssr: true },
+);
+const TestimonialGridSection = dynamic(
+  () =>
+    import("@/components/testimonials-grid-section").then((mod) => ({
+      default: mod.TestimonialGridSection,
+    })),
+  { ssr: true },
+);
+const FAQSection = dynamic(
+  () =>
+    import("@/components/faq-section").then((mod) => ({
+      default: mod.FAQSection,
+    })),
+  { ssr: true },
+);
+const ContactSection = dynamic(
+  () =>
+    import("@/components/contact-section").then((mod) => ({
+      default: mod.ContactSection,
+    })),
+  { ssr: true },
+);
+const CTASection = dynamic(
+  () =>
+    import("@/components/cta-section").then((mod) => ({
+      default: mod.CTASection,
+    })),
+  { ssr: true },
+);
+const FooterSection = dynamic(
+  () =>
+    import("@/components/footer-section").then((mod) => ({
+      default: mod.FooterSection,
+    })),
+  { ssr: true },
+);
+const ExpandableCards = dynamic(() => import("@/components/expandable-cards"), {
+  ssr: true,
+});
+const VoiceSection = dynamic(
+  () =>
+    import("@/components/voices-section").then((mod) => ({
+      default: mod.VoiceSection,
+    })),
+  { ssr: true },
+);
 
 export default function LandingPage() {
   return (

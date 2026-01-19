@@ -21,7 +21,7 @@ export default function HorizontalExpandableVoiceCards() {
       description:
         "Listen how our AI Voice Agent politely reminds a client about their upcoming dental appointment.",
       image:
-        "https://images.unsplash.com/photo-1602233158242-3ba0ac4d2167?q=80&w=872&auto=format&fit=crop",
+        "/images/clara.avif",
       audio: "/audio/clara.mp3",
       gradient: "bg-cyan-500",
     },
@@ -32,7 +32,7 @@ export default function HorizontalExpandableVoiceCards() {
       description:
         "Discover in this recording how AI instantly provides comprehensive property details, simplifying your client's real estate search.",
       image:
-        "https://images.unsplash.com/photo-1627161683077-e34782c24d81?q=80&w=806&auto=format&fit=crop",
+        "/images/jenny.avif",
       audio: "/audio/jenny.mp3",
       gradient: "bg-emerald-500",
     },
@@ -42,7 +42,7 @@ export default function HorizontalExpandableVoiceCards() {
       title: "Lead Qualification",
       description: "Qualifies inbound leads and routes hot prospects to your sales team efficiently.",
       image:
-        "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=774&auto=format&fit=crop",
+        "/images/sam.avif",
       audio: "/audio/sam.mp3",
       gradient: "bg-orange-500",
     },
@@ -52,7 +52,7 @@ export default function HorizontalExpandableVoiceCards() {
       title: "Customer Support",
       description: "Handles FAQs professionally and escalates complex support tickets when needed.",
       image:
-        "https://plus.unsplash.com/premium_photo-1661310261765-f0481298ac4d?q=80&w=774&auto=format&fit=crop",
+        "/images/jordan.avif",
       audio: "/audio/jordan.mp3",
       gradient: "bg-fuchsia-500",
     },
@@ -238,7 +238,9 @@ export default function HorizontalExpandableVoiceCards() {
                   alt={voice.name}
                   fill
                   className="object-cover transition-transform duration-800 hover:scale-105"
-                  priority={isActive} // only preload active image
+                  priority={isActive && index === 0} // only preload first active image
+                  loading={index === 0 ? undefined : "lazy"}
+                  sizes="(max-width: 768px) 100vw, 240px"
                 />
               </motion.div>
 

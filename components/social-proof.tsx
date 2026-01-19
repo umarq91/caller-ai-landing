@@ -31,6 +31,8 @@ export function SocialProof() {
               width={400}
               height={120}
               className="w-full max-w-[400px] h-auto object-contain grayscale"
+              loading="lazy"
+              sizes="(max-width: 768px) 50vw, 25vw"
             />
           </motion.div>
         ))}

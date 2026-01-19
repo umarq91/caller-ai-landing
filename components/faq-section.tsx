@@ -52,24 +52,35 @@ const FAQItem = ({ question, answer, isOpen, onToggle }: FAQItemProps) => {
   }
    return (
     <div
-      className={`w-full bg-[rgba(231,236,235,0.08)] shadow-[0px_2px_4px_rgba(0,0,0,0.16)] overflow-hidden rounded-[10px] outline outline-1 outline-border outline-offset-[-1px] cursor-pointer`}
+      className={`w-full bg-[rgba(231,236,235,0.08)] shadow-[0px_2px_4px_rgba(0,0,0,0.16)] overflow-hidden rounded-[10px] outline outline-1 outline-border outline-offset-[-1px]`}
     >
       {/* Header / Question */}
-      <div
-        className="w-full px-5 py-[18px] pr-4 flex justify-between items-center gap-5 text-left"
+      <button
+        type="button"
+        id={`faq-question-${question.slice(0, 20).replace(/\s/g, '-')}`}
+        className="w-full px-5 py-[18px] pr-4 flex justify-between items-center gap-5 text-left cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-inset rounded-[10px]"
         onClick={handleClick}
+        aria-expanded={isOpen}
+        aria-controls={`faq-answer-${question.slice(0, 20).replace(/\s/g, '-')}`}
       >
         <div className="flex-1 text-foreground text-base font-medium leading-6 break-words">{question}</div>
-        <motion.div animate={{ rotate: isOpen ? 180 : 0 }} transition={{ duration: 0.3 }}>
+        <motion.div 
+          animate={{ rotate: isOpen ? 180 : 0 }} 
+          transition={{ duration: 0.3 }}
+          aria-hidden="true"
+        >
           <ChevronDown className="w-6 h-6 text-muted-foreground-dark" />
         </motion.div>
-      </div>
+      </button>
 
       {/* Answer - only this animates */}
       <AnimatePresence initial={false}>
         {isOpen && (
           <motion.div
             key="content"
+            id={`faq-answer-${question.slice(0, 20).replace(/\s/g, '-')}`}
+            role="region"
+            aria-labelledby={`faq-question-${question.slice(0, 20).replace(/\s/g, '-')}`}
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}

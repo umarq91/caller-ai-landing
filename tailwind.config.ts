@@ -20,6 +20,12 @@ const config = {
   	},
   	extend: {
   		fontFamily: {
+  			sans: [
+  				'var(--font-poppins)',
+  				'system-ui',
+  				'-apple-system',
+  				'sans-serif'
+  			],
   			poppins: [
   				'var(--font-poppins)'
   			]

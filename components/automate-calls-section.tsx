@@ -1,5 +1,3 @@
-"use client";
-
 export default function AutomateCallsSection() {
   return (
     <section className="w-full text-white px-4 sm:px-6 py-16 sm:py-20 font-poppins">
